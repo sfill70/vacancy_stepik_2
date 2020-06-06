@@ -109,9 +109,9 @@ class CompaniesView(View):
         return render(request, 'company/companies.html', context)
 
 class CompanyView(View):
-    def get(self, request, id):
+    def get(self, request, pk):
         get_url = self.request.META.get('HTTP_REFERER', '/')
-        company = get_object_or_404(Company, id=id)
+        company = get_object_or_404(Company, pk=pk)
         context = {'company': company,
                    'vacancies': company.vacancies.all(),
                    'get_url': get_url}
