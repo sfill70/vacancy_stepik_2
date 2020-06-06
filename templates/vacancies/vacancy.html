@@ -1,0 +1,60 @@
+{% extends 'vacancies/base.html' %}
+
+{% block content %}
+
+    <main class="container mt-3 pb-5">
+        <div class="row mt-5">
+            <div class="col-12 col-lg-2">
+                <div class="pl-3 mb-5">
+                    <p><a href={{ get_url }}>Назад</a></p><br>
+{#                    {{ get_url }}<br>#}
+{#                    {{ request.get_full_path }}<br>#}
+{#                    {{ object.get_full_path }}<br>#}
+{#                    {{ return_path }}<br>#}
+                </div>
+            </div>
+            <div class="col-12 col-lg-8">
+                <section class="pl-3">
+                    <a href="{% url 'vacancy:company_id' vacancy.company.id %}"><img src="https://place-hold.it/130x80"
+                                                                                     width="130" height="80" alt=""></a>
+                    <div class="d-flex align-items-baseline align-content-baseline">
+                        <h1 class="h2 mt-4 font-weight-bold">{{ vacancy.title }}</h1>
+                        <p class="m-0 pl-3">{{ vacancy.salary_min }} – {{ vacancy.salary_max }} Р</p>
+                    </div>
+                    <p class="mt-2">{{ vacancy.speciality.title }} {{ vacancy.skills }}</p>
+                    <p class="text-muted mb-4">{{ vacancy.company.name }} ({{ vacancy.company.employee_count }}
+                        человек), {{ vacancy.company.location }}</p>
+                    <div style="line-height: 1.8;">
+                        <p>{{ vacancy.description }}</p>
+                    </div>
+                    {#                    <form action="/echo" class="card mt-4 mb-3" method="post">#}
+                    <form id=add_form class="card mt-4 mb-3" method="post">
+                        {% csrf_token %}
+{#                        {{ form }}#}
+                        <div class="card-body mx-3">
+                            <p class="h5 mt-3 font-weight-normal">Отозваться на вакансию</p>
+                            <div class="form-group">
+                                <label class="mb-1 mt-2" for="written_username">Вас зовут</label>
+                                <input class="form-control" type="text" name="written_username" placeholder="" id="written_username">
+                            </div>
+                            <div class="form-group">
+                                <label class="mb-1" for="written_phone">Ваш телефон</label>
+                                <input class="form-control" type="tel" name="written_phone"  placeholder="" id="written_phone">
+                            </div>
+                            <div class="form-group">
+                                <label class="mb-1" for="written_cover_letter">Сопроводительное письмо</label>
+                                <textarea class="form-control" name="written_cover_letter" rows="8" id="written_cover_letter"></textarea>
+                            </div>
+                            <input form="add_form" type="submit" class="btn btn-primary mt-4 mb-2"
+                                   value="Записаться на пробный урок"><br>
+{#                            <button form="add_form" type="submit" class="btn btn-primary mt-2"#}
+{#                                    onclick=" location.href='{% url 'vacancy:vacancy_id' vacancy.pk %}' ">#}
+{#                                "Записаться на пробный урок"#}
+{#                            </button>#}
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </main>
+{% endblock %}
