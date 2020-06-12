@@ -1,8 +1,7 @@
 from django.contrib import admin
-from .models import Company, User, Vacancy, Speciality, Application
-# Register your models here.
+from .models import Company, Vacancy, Speciality, Application
 
-# admin.site.register(User)
+
 admin.site.register(Company)
 admin.site.register(Vacancy)
 admin.site.register(Speciality)

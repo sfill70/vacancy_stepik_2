@@ -1,0 +1,41 @@
+{% extends 'vacancies/base.html' %}
+
+{% block content %}
+
+    <main class="container mt-3 pb-5">
+        <div class="row mt-5">
+            <div class="col-12 col-lg-2">
+                <div class="pl-3 mb-5">
+
+                    <p><a href={{ get_url }}>Назад</a></p><br>
+
+                </div>
+            </div>
+            <div class="col-12 col-lg-8">
+
+                <div class="d-flex align-items-baseline align-content-baseline">
+                    <h1 class="h2 mt-4 font-weight-bold">{{ vacancy.title }}</h1>
+                    <p class="m-0 pl-3">{{ vacancy.salary_min }} – {{ vacancy.salary_max }} Р</p>
+                </div>
+                <p class="text-muted mb-4">{{ vacancy.company.name }} ({{ vacancy.company.employee_count }}
+                    человек), {{ vacancy.company.location }}</p>
+                {% for app in applications %}
+                    <section class="pl-3">
+
+                        <ul class="list-group">
+                            <li class="list-group-item" style="background: beige">
+                                <b>{{ app.written_username }}</b>
+                                <span class="m-4">{{ app.written_phone }}</span><br>
+                                <b>{{ articles.create_date }}</b>
+                                <span>{{ app.written_cover_letter|truncatechars:100 }}</span>
+                                <span class="float-right mr-3"><a
+                                        href="#">Перейти к отзыву</a> </span>
+                            </li>
+                        </ul>
+
+                    </section>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'vacancies/base.html' %}
+{% load crispy_forms_filters %}
+
+
+{% block content %}
+
+    {% load crispy_forms_tags %}
+    <main class="container mt-3 pb-5">
+        <div class="row mt-5">
+            <div class="col-12 col-lg-4">
+                <aside class="pt-3 pb-4 px-4 mb-5 card">
+                    <h1 class="h4 pt-2 pb-2">Моя компания</h1>
+                    <div class="nav flex-column nav-pills">
+                        <a class="nav-link" href="{% url 'vacancy:edit_company' %}">1. Информация о&nbsp;компании</a>
+                        <a class="nav-link active" href="{% url 'vacancy:my_vacancies' %}">2. Вакансии</a>
+                    </div>
+                </aside>
+            </div>
+            <div class="col-12 col-lg-8">
+                <div class="card">
+                    <div class="card-body px-4 pb-4 tab-content">
+                        <!-- Tab -->
+                        <section>
+                            <h2 class="h4 pt-2 pb-3">Редактирование вакансии</h2>
+                            <div id="header">
+                        <div id="content" class="alert alert-info" role="alert">
+                            {% if messages %}
+                                <ul class="messages">
+                                    {% for message in messages %}
+                                        <li class="{{ message.tags }}">
+                                            {{ message|safe }}
+                                            <a href="{{ request.path }}" class="close">✖</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group pb-2">
+                                            {{ form.title|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group pb-2">
+                                            {{ form.speciality|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group pb-2">
+                                            {{ form.salary_min|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group pb-2">
+                                            {{ form.salary_max|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group pb-2">
+                                    {{ form.skills|as_crispy_field }}
+                                </div>
+                                <div class="form-group pb-2">
+                                    {{ form.description|as_crispy_field }}
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-info" value="Сохранить">
+                                </div>
+                            </form>
+                        </section>
+                        <!-- END Tab -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

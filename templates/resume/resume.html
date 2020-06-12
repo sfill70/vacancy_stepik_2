@@ -1,0 +1,53 @@
+{% extends 'vacancies/base.html' %}
+
+{% block content %}
+
+    <main class="container mt-3 pb-5">
+        <div class="row mt-5">
+            <div class="col-12 col-lg-8">
+                <div class="d-flex align-items-baseline align-content-baseline">
+                    <h1 class="h2 mt-4 font-weight-bold">Список резюме</h1>
+                </div>
+
+                <form action="{% url 'resume:resume_search' %}" class="form-inline mb-3" method="GET">
+                    <div class="form-group col-8 col-md-10 pl-0">
+                        <input class="form-control w-100" type="search" placeholder="Поиск резюме"
+                               aria-label="Найти резюме" name="name">
+                    </div>
+                    <div class="form-group col-4 col-md-2 pl-0">
+                        <button class="btn btn-primary w-100" type="submit">Найти</button>
+                    </div>
+                </form>
+                <p>
+                    Например:
+                    <a href="{% url 'resume:resume_search' %}?name=Фронтенд"
+                       class="text-dark border-bottom border-dark m-1 text-decoration-none">Фронтенд</a>
+                    <a href="{% url 'resume:resume_search' %}?name=Продукты"
+                       class="text-dark border-bottom border-dark m-1 text-decoration-none">Продукты</a>
+                    <a href="{% url 'resume:resume_search' %}?name=Дизайн"
+                       class="text-dark border-bottom border-dark m-1 text-decoration-none">Дизайн</a>
+                    <a href="{% url 'resume:resume_search' %}?name=Менеджментг"
+                       class="text-dark border-bottom border-dark m-1 text-decoration-none">Менеджмент</a>
+                    <a href="{% url 'resume:resume_search' %}?name=Тестирование"
+                       class="text-dark border-bottom border-dark m-1 text-decoration-none">Тестирование</a>
+                </p>
+                <div class="mt-4">
+                    {% for res in resume %}
+                        <section>
+                            <ul class="list-group">
+                                <li class="list-group-item" style="background: beige">
+                                    <b>{{ res.name }}</b>
+                                    <b>{{ res.surname }}</b>
+                                    <span class="m-4"><a href="{{ res.portfolio }}"></a>{{ res.portfolio }}</span><br>
+                                    <b>Специализация -</b><i> {{ res.speciality }} </i>
+                                    <b class="m-4"> Квалификация -</b><span><i>{{ res.grade }}</i></span>
+                                    <span class="m-4"><b>Статус -</b><i> {{ res.status }}</i></span>
+                                    <span class="float-right mr-3"><a href="#">Перейти к резюме</a> </span>
+                                </li>
+                            </ul>
+                        </section>
+                    {% endfor %}</div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

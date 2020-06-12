@@ -1,4 +1,5 @@
 """ Вакансии """
+from enum import Enum
 
 jobs = [
 
@@ -47,6 +48,41 @@ specialties = [
 
 """ Статусы в формате Enum """
 
+
+class EducationChoices(Enum):
+    missing = 'Отсутствует'
+    secondary = 'Среднее'
+    vocational = 'Средне-специальное'
+    incomplete_higher = 'Неполное высшее'
+    higher = 'Высшее'
+
+    @classmethod
+    def choices(cls):
+        return [(i.name, i.value) for i in cls]
+
+
+class GradeChoices(Enum):
+    intern = 'intern'
+    junior = 'junior'
+    middle = 'middle'
+    senior = 'senior'
+    lead = 'lead'
+
+    @classmethod
+    def choices(cls):
+        return [(i.name, i.value) for i in cls]
+
+
+class WorkStatusChoices(Enum):
+    not_in_search = 'Не ищу работу'
+    consideration = 'Рассматриваю предложения'
+    in_search = 'Ищу работу'
+
+    @classmethod
+    def choices(cls):
+        return [(i.name, i.value) for i in cls]
+
+# print(WorkStatusChoices.choices())
 #
 #
 # class EducationChoices(Enum):

@@ -1,0 +1,30 @@
+{% extends 'vacancies/base.html' %}
+
+{% block content %}
+    <main class="container mt-3 pb-5">
+        <div class="row mt-5">
+            <section class="tab-pane fade show active">
+                <h2 class="h4 pt-2 pb-3">Информация о&nbsp;резюме {{ resume.name }} {{ resume.surname }}</h2>
+                <div id="header">
+                    <div id="content" class="alert alert-info" role="alert">
+                        {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                                    <li class="{{ message.tags }}">
+                                        {{ message|safe }}
+                                        <a href="{{ request.path }}" class="close">✖</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+                <form id=add_form class="card mt-4 mb-3" enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+                    {{ form.as_table }}
+                    <button form="add_form" type="submit" class="btn btn-primary mt-4">Сохранить</button>
+                </form>
+            </section>
+        </div>
+    </main>
+{% endblock %}

@@ -39,7 +39,7 @@ class AuthUserForm(AuthenticationForm, forms.ModelForm):
 class CompanyForm(ModelForm):
     class Meta:
         model = Company
-        fields = ['name', 'location', 'description', 'employee_count']
+        fields = ['name', 'location', 'logo', 'description', 'employee_count']
 
 
 class VacancyForm(ModelForm):
