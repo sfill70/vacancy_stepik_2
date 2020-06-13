@@ -1,1 +1,1 @@
-web: gunicorn vacansy_stepik.wsgi
+web: gunicorn vacancy_stepik.wsgi
