@@ -222,11 +222,11 @@ class MyVacancyListView(ListView):
             pass
         if not company:
             return redirect('vacancy:add_company')
-        return super().dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs) 
     
     model = Vacancy
     template_name = 'company/vacancy-list.html'
-    
+
     def get_context_data(self, **kwargs):
         company = self.request.user.company
         context = super(MyVacancyListView, self).get_context_data(**kwargs)
