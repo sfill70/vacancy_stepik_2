@@ -79,8 +79,7 @@ class VacanciesByCategoryView(View):
         return render(request, 'vacancies/vacancies.html', context)
 
 
-class VacancyView(LoginRequiredMixin, View):
-    login_url = reverse_lazy('vacancy:login_page')
+class VacancyView(View):
 
     def get(self, request, pk):
         get_url = self.request.META.get('HTTP_REFERER', '/')
