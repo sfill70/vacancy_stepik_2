@@ -1,16 +1,20 @@
 {% extends 'vacancies/base.html' %}
 {% block content %}
+{% load crispy_forms_filters %}
 <body>
   <main class="container">
     <div class="row">
       <div class="col-8 col-lg-4 offset-2 offset-lg-4">
-        <form class="form-signin pt-5" method="post">
+         {% load crispy_forms_tags %}
+          <form class="form-signin pt-5" method="post">
             {% csrf_token %}
           <div class="text-center mt-5 b-1">
 
             <h1 class="h3 mb-3 font-weight-normal">Джуманджи</h1>
             <p class="h5 font-weight-light">Войдите, чтобы управлять</p>
           </div>
+{#              {{ form.login|as_crispy_field }}#}
+{#              {{ form.password|as_crispy_field }}#}
           <div class="mt-5 form-label-group">
             <p class="text-muted">Логин</p>
             <input type="text" name="username" id="id_username" class="form-control" required autofocus>

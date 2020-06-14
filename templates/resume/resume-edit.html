@@ -1,4 +1,5 @@
 {% extends 'vacancies/base.html' %}
+{% load crispy_forms_filters %}
 
 {% block content %}
     <main class="container mt-3 pb-5">
@@ -19,9 +20,11 @@
                         {% endif %}
                     </div>
                 </div>
+                {% load crispy_forms_tags %}
                 <form id=add_form class="card mt-4 mb-3" enctype="multipart/form-data" method="post">
                     {% csrf_token %}
-                    {{ form.as_table }}
+                    {{ form|crispy }}
+{#                    form|crispy#}
                     <button form="add_form" type="submit" class="btn btn-primary mt-4">Сохранить</button>
                 </form>
             </section>

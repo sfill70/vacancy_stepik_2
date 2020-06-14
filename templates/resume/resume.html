@@ -42,7 +42,7 @@
                                     <b>Специализация -</b><i> {{ res.speciality }} </i>
                                     <b class="m-4"> Квалификация -</b><span><i>{{ res.grade }}</i></span>
                                     <span class="m-4"><b>Статус -</b><i> {{ res.status }}</i></span>
-                                    <span class="float-right mr-3"><a href="#">Перейти к резюме</a> </span>
+                                    <span class="float-right mr-3"><a href="{% url 'resume:resume_one' res.pk %}">Перейти к резюме</a> </span>
                                 </li>
                             </ul>
                         </section>

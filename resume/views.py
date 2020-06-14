@@ -3,7 +3,8 @@ from logging import getLogger
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django.shortcuts import render, redirect
+from django.forms import model_to_dict
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, UpdateView, TemplateView, ListView
@@ -102,3 +103,25 @@ class SearchResumeyView(ListView):
         resume = Resume.objects.filter(
             Q(speciality__title__icontains=query) | Q(speciality__title__icontains=query.title()))
         return resume
+
+
+# class ResumeViewOne(View):
+#     from django.forms.models import model_to_dict
+#
+#     def get(self, request):
+#         get_url = self.request.META.get('HTTP_REFERER', '/')
+#         resume = Resume.objects.all()
+#         context = {'resume': resume,
+#                    'get_url': get_url, }
+#         return render(request, 'resume/resume_one.html', context)
+
+class ResumeViewOne(View):
+
+    def get(self, request, pk):
+        get_url = self.request.META.get('HTTP_REFERER', '/')
+        resume = get_object_or_404(Resume, pk=pk)
+        resume_dict = model_to_dict(resume)
+        context = {'resume': resume,
+                   'resume_dict': resume_dict,
+                   'get_url': get_url}
+        return render(request, 'resume/resume_one.html', context)
