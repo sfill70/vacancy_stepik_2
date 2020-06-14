@@ -23,6 +23,6 @@ class Resume(models.Model):
     def __str__(self):
         return self.surname
 
-
+    @staticmethod
     def get_user_company(user):
         return Resume.objects.all().get(user=user)

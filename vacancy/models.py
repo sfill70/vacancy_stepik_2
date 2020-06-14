@@ -16,6 +16,7 @@ class Company(models.Model):
     def __str__(self):
         return self.name
 
+    @staticmethod
     def get_user_company(user):
         return Company.objects.all().get(owner=user)
 
