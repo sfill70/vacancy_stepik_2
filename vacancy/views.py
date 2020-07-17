@@ -23,6 +23,7 @@ def custom_handler404(request, exception):
 def custom_handler500(request, exception):
     return HttpResponseNotFound('Сервер не отвечает.')
 
+
 # -----Для придожения authorizaion- Я переписать с приложениями не успеваю-----------
 class MyProjectLoginView(LoginView):
     template_name = 'authorization/login.html'
@@ -50,6 +51,7 @@ class RegisterUserView(CreateView):
 
 class MyProjectLogout(LogoutView):
     next_page = reverse_lazy('vacancy:home')
+
 
 # --------------Для придожения vacancy-----------
 class MainView(View):
@@ -98,25 +100,54 @@ class VacancyView(View):
 
     def post(self, request, pk):
         get_vacancy = Vacancy.objects.get(pk=pk)
-        users = [i['user'] for i in get_vacancy.applications.all().values('user')]
-        # Если у vacancy нет owner это не работает ??????
-        # user = ''
-        # try:
-        #     user = get_vacancy.applications.all().values('user').get(user=request.user)
-        # except:
-        #     pass
-        if request.user.pk in users:
-            return HttpResponseRedirect(reverse('vacancy:vacancy_id', args=[get_vacancy.pk]))
-        else:
-            application = Application()
-            application.vacancy = get_vacancy
-            application.user = request.user
-            form = ApplicationForm(request.POST, instance=application)
-            if form.is_valid():
-                application.save()
+        #
+        if request.user.is_authenticated:
+            # Пользователь авторизован.
+            users = [i['user'] for i in get_vacancy.applications.all().values('user')]
+            # Если у vacancy нет owner это не работает ??????
+            # user = ''
+            # try:
+            #     user = get_vacancy.applications.all().values('user').get(user=request.user)
+            # except:
+            #     pass
+            if request.user.pk in users:
                 return HttpResponseRedirect(reverse('vacancy:vacancy_id', args=[get_vacancy.pk]))
             else:
-                return HttpResponseRedirect(reverse('vacancy:vacancy_id', args=[get_vacancy.pk]))
+                application = Application()
+                application.vacancy = get_vacancy
+                application.user = request.user
+                form = ApplicationForm(request.POST, instance=application)
+                if form.is_valid():
+                    application.save()
+                    return HttpResponseRedirect(reverse('vacancy:vacancy_id', args=[get_vacancy.pk]))
+                else:
+                    return HttpResponseRedirect(reverse('vacancy:vacancy_id', args=[get_vacancy.pk]))
+
+
+        else:
+            # Анонимный пользователь.
+            return HttpResponseRedirect(reverse_lazy('vacancy:login_page'))
+
+        # users = [i['user'] for i in get_vacancy.applications.all().values('user')]
+        # # Если у vacancy нет owner это не работает ??????
+        # # user = ''
+        # # try:
+        # #     user = get_vacancy.applications.all().values('user').get(user=request.user)
+        # # except:
+        # #     pass
+        # if request.user.pk in users or not request.user.is_authenticated:
+        #     return HttpResponseRedirect(reverse('vacancy:vacancy_id', args=[get_vacancy.pk]))
+        # else:
+        #     application = Application()
+        #     application.vacancy = get_vacancy
+        #     application.user = request.user
+        #     form = ApplicationForm(request.POST, instance=application)
+        #     if form.is_valid():
+        #         application.save()
+        #         return HttpResponseRedirect(reverse('vacancy:vacancy_id', args=[get_vacancy.pk]))
+        #     else:
+        #         return HttpResponseRedirect(reverse('vacancy:vacancy_id', args=[get_vacancy.pk]))
+
 
 # --------------Для придожения company-----------
 class CompaniesView(View):
@@ -153,6 +184,7 @@ class MyCompanyControlView(LoginRequiredMixin, TemplateView):
         if company:
             return redirect('vacancy:edit_company')
         return super().dispatch(request, *args, **kwargs)
+
 
 class MyCompanyCreateView(LoginRequiredMixin, CreateView):
     login_url = reverse_lazy('vacancy:login_page')
@@ -194,15 +226,16 @@ class MyCompanyUpdateView(LoginRequiredMixin, UpdateView):
         context = super(MyCompanyUpdateView, self).get_context_data(**kwargs)
         return context
 
+
 # --------------Для придожения vacansy-----------
 class ApplicationsView(View):
 
     def get(self, request, pk):
         get_url = self.request.META.get('HTTP_REFERER', '/')
         vacancy = get_object_or_404(Vacancy, pk=pk)
-        if not vacancy.company.owner == request.user:
-            messages.success(self.request, 'Информация только для владельца вакансии')
-            return HttpResponseRedirect(reverse('vacancy:vacancy_id', args=[vacancy.pk]))
+        # if not vacancy.company.owner == request.user:
+        #     messages.success(self.request, 'Информация только для владельца вакансии')
+        #     return HttpResponseRedirect(reverse('vacancy:vacancy_id', args=[vacancy.pk]))
         applications = vacancy.applications.all()
         context = {'vacancy': vacancy,
                    'get_url': get_url,
@@ -211,7 +244,7 @@ class ApplicationsView(View):
 
 
 class MyVacancyListView(ListView):
-    
+
     def dispatch(self, request, *args, **kwargs):
         company = ''
         try:
@@ -221,8 +254,8 @@ class MyVacancyListView(ListView):
             pass
         if not company:
             return redirect('vacancy:add_company')
-        return super().dispatch(request, *args, **kwargs) 
-    
+        return super().dispatch(request, *args, **kwargs)
+
     model = Vacancy
     template_name = 'company/vacancy-list.html'
 
